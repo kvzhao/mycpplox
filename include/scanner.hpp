@@ -19,8 +19,11 @@ private:
   void addToken(TokenType type);
   void addToken(TokenType tpye, std::any literal);
 
+  void number();
+
   // movement operation
   char peek();
+  char peekNext();
   char advance();
   bool isAtEnd();
 

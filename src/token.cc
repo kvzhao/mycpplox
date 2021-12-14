@@ -22,6 +22,11 @@ std::string Token::toString() const {
   std::string literal_text;
 
   switch(type) {
+
+    case NUMBER:
+      literal_text = std::to_string(std::any_cast<double>(literal));
+      break;
+
     default:
       literal_text = "nil";
       break;

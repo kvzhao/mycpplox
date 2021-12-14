@@ -7,10 +7,15 @@ Scanner::Scanner(std::string_view source)
   : source(source) {}
 
 std::vector<Token> Scanner::scanTokens() {
-  // TODO
+
   while (!isAtEnd()) {
+    start = current;
     scanToken();
   }
+
+  tokens.emplace_back(
+    Token(END_OF_FILE, "", nullptr, line));
+
   return tokens;
 }
 
@@ -29,14 +34,28 @@ bool Scanner::isAlpha(char c) {
 }
 
 char Scanner::peek() {
+  if (isAtEnd()) return '\0';
+  return source[current];
+}
+
+char Scanner::peekNext() {
   if (current + 1 >= source.length()) {
     return '\0';
   }
-  return source[current];
+  return source[current + 1];
 }
 
 char Scanner::advance() {
   return source[current++];
+}
+
+void Scanner::number() {
+  while(isDigit(peek())) advance();
+  // TOOD: fraction part
+
+  addToken(NUMBER,
+    std::stod(std::string{source.substr(start, current - start)})
+  );
 }
 
 void Scanner::scanToken() {
@@ -73,7 +92,7 @@ void Scanner::scanToken() {
     case '*':
       addToken(STAR);
       break;
-    
+
     case '\n':
       ++line;
       break;
@@ -84,12 +103,12 @@ void Scanner::scanToken() {
 
     default:
       if (isDigit(c)) {
-        //TODO
+        number();
       }
       else if (isAlpha(c)) {
         //TODO
       } else {
-        error(line, "Unexpected character.");
+        error(line, "Unexpected character: " + std::to_string(c));
       }
       break;
   }
