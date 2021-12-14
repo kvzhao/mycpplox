@@ -1,6 +1,4 @@
-
-#ifndef ERROR_H
-#define ERROR_H
+#pragma once
 
 #include <iostream>
 #include <string_view>
@@ -18,5 +16,3 @@ static void report(int line, std::string_view where,
 void error(int line, std::string_view message) {
   report(line, "", message);
 }
-
-#endif

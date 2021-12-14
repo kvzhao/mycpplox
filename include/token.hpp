@@ -1,5 +1,4 @@
-#ifndef TOKEN_H
-#define TOKEN_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -15,5 +14,3 @@ public:
   Token(TokenType type, std::string lexeme, std::any literal, int line);
 
 };
-
-#endif

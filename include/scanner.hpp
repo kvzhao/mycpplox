@@ -1,5 +1,4 @@
-#ifndef SCANNER_H
-#define SCANNER_H
+#pragma once
 
 #include <vector>
 #include <string>
@@ -24,5 +23,3 @@ private:
   int current = 0;
   int line = 1;
 };
-
-#endif

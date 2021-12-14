@@ -1,7 +1,4 @@
-
-#ifndef TOKEN_TYPE_H
-#define TOKEN_TYPE_H
-
+#pragma once
 #include <string>
 
 enum TokenType {
@@ -24,5 +21,3 @@ enum TokenType {
 
   END_OF_FILE
 };
-
-#endif
