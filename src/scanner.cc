@@ -18,6 +18,10 @@ bool Scanner::isAtEnd() {
   return current >= source.length();
 }
 
+bool Scanner::isDigit(char c) {
+  return c >= '0' && c <= '9';
+}
+
 char Scanner::peek() {
   if (current + 1 >= source.length()) {
     return '\0';
@@ -34,7 +38,14 @@ void Scanner::scanToken() {
 
   switch(c) {
     case '(' :
+      addToken(LEFT_PAREN);
+      break;
+    case ')':
       addToken(RIGHT_PAREN);
+      break;
+    
+    case '\n':
+      ++line;
       break;
 
     default:
