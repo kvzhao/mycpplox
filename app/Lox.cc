@@ -10,12 +10,22 @@
 #include "error.hpp"
 
 
+void run(std::string_view source) {
+  Scanner scanner{source};
+  std::vector<Token> tokens = scanner.scanTokens();
+
+  for (const auto& t : tokens) {
+    std::cout << t.toString() << "\n";
+  }
+
+}
+
 void runPrompt() {
   for(;;) {
     std::cout << "> ";
     std::string line;
     if (!std::getline(std::cin, line)) break;
-    std::cout << line << "\n";
+    run(line);
   }
 }
 
@@ -28,9 +38,6 @@ int main(int argc, char* argv[]) {
   } else {
     runPrompt();
   }
-
-  Token t;
-  Scanner s("var l = a");
 
   std::cout << "exit jlox\n";
 }

@@ -11,8 +11,18 @@ public:
 
   Scanner(std::string_view source);
 
+  std::vector<Token> scanTokens();
 
 private:
+
+  void scanToken();
+  void addToken(TokenType type);
+  void addToken(TokenType tpye, std::any literal);
+
+  // movement operation
+  char peek();
+  char advance();
+  bool isAtEnd();
 
   static const std::unordered_map<std::string, TokenType> keywords;
 

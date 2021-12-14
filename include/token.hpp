@@ -9,8 +9,17 @@
 class Token {
 
 public:
-  Token() {};
+  Token(TokenType type, std::string lexeme, std::any literal, int line)
+    : type{type},
+      lexeme{std::move(lexeme)},
+      literal{std::move(literal)},
+      line{line} 
+  {};
 
-  Token(TokenType type, std::string lexeme, std::any literal, int line);
+  std::string toString() const;
 
+  const TokenType type;
+  const std::string lexeme;
+  const std::any literal;
+  const int line;
 };

@@ -18,5 +18,14 @@ std::string Token2String(TokenType type) {
   return strings[static_cast<int>(type)];
 }
 
+std::string Token::toString() const {
+  std::string literal_text;
 
-Token::Token(TokenType type, std::string lexeme, std::any literal, int line)  {}
+  switch(type) {
+    default:
+      literal_text = "nil";
+      break;
+  }
+
+  return Token2String(type) + " " + lexeme + " " + literal_text;
+}
