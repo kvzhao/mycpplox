@@ -23,6 +23,18 @@ std::string Token::toString() const {
 
   switch(type) {
 
+    case IDENTIFIER:
+      literal_text = lexeme;
+      break;
+
+    case (TRUE):
+      literal_text = "true";
+      break;
+
+    case (FALSE):
+      literal_text = "false";
+      break;
+
     case NUMBER:
       literal_text = std::to_string(std::any_cast<double>(literal));
       break;

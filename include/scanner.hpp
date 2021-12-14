@@ -19,17 +19,16 @@ private:
   void addToken(TokenType type);
   void addToken(TokenType tpye, std::any literal);
 
-  void number();
-  void string();
-
-  // movement operation
   char peek();
   char peekNext();
   char advance();
   bool match(char expected);
 
-  bool isAtEnd();
+  void number();
+  void string();
+  void identifier();
 
+  bool isAtEnd();
   bool isDigit(char c);
   bool isAlpha(char c);
   bool isAlphaNumeric(char c);

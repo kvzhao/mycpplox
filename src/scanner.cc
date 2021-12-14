@@ -1,10 +1,26 @@
 
 #include "scanner.hpp"
 #include "error.hpp"
+
 #include <iostream>
 
 const std::unordered_map<std::string, TokenType> Scanner::keywords = {
-
+  {"and",     TokenType::AND},
+  {"class",   TokenType::CLASS},
+  {"else",    TokenType::ELSE},
+  {"false",   TokenType::FALSE},
+  {"fun",     TokenType::FUN},
+  {"for",     TokenType::FOR},
+  {"if",      TokenType::IF},
+  {"nil",     TokenType::NIL},
+  {"or",      TokenType::OR},
+  {"print",   TokenType::PRINT},
+  {"return",  TokenType::RETURN},
+  {"super",   TokenType::SUPER},
+  {"this",    TokenType::THIS},
+  {"ture",    TokenType::TRUE},
+  {"var",     TokenType::VAR},
+  {"while",   TokenType::WHILE}
 };
 
 Scanner::Scanner(std::string_view source)
@@ -57,7 +73,6 @@ char Scanner::advance() {
   return source[current++];
 }
 
-
 bool Scanner::match(char expected) {
   if (isAtEnd()) return false;
   if (source[current] != expected) return false;
@@ -97,6 +112,26 @@ void Scanner::string() {
   };
 
   addToken(STRING, value);
+}
+
+void Scanner::identifier() {
+
+  while(isAlphaNumeric(peek())) advance();
+
+  std::string text = std::string{
+    source.substr(start, current - start)
+  };
+
+  TokenType type;
+  auto match = keywords.find(text);
+
+  if (match == keywords.end()) {
+    type = IDENTIFIER;
+  } else {
+    type = match->second;
+  }
+
+  addToken(type);
 }
 
 void Scanner::scanToken() {
@@ -175,7 +210,7 @@ void Scanner::scanToken() {
         number();
       }
       else if (isAlpha(c)) {
-        //TODO
+        identifier();
       } else {
         error(line, "Unexpected character: " + std::to_string(c));
       }
