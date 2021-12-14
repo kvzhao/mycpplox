@@ -23,7 +23,9 @@ private:
   char peek();
   char advance();
   bool isAtEnd();
+
   bool isDigit(char c);
+  bool isAlpha(char c);
 
   static const std::unordered_map<std::string, TokenType> keywords;
 

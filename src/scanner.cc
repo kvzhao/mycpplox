@@ -22,6 +22,12 @@ bool Scanner::isDigit(char c) {
   return c >= '0' && c <= '9';
 }
 
+bool Scanner::isAlpha(char c) {
+  return (c >= 'a' && c <= 'z') ||
+         (c >= 'A' && c <= 'Z') ||
+         (c == '_');
+}
+
 char Scanner::peek() {
   if (current + 1 >= source.length()) {
     return '\0';
@@ -77,7 +83,14 @@ void Scanner::scanToken() {
       break;
 
     default:
-      error(line, "Unexpected character.");
+      if (isDigit(c)) {
+        //TODO
+      }
+      else if (isAlpha(c)) {
+        //TODO
+      } else {
+        error(line, "Unexpected character.");
+      }
       break;
   }
 }
