@@ -51,7 +51,12 @@ char Scanner::advance() {
 
 void Scanner::number() {
   while(isDigit(peek())) advance();
-  // TOOD: fraction part
+
+  // fraction
+  if (peek() == '.' && isDigit(peekNext())) {
+    advance();
+    while(isDigit(peek())) advance();
+  }
 
   addToken(NUMBER,
     std::stod(std::string{source.substr(start, current - start)})
