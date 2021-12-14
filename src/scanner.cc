@@ -49,6 +49,14 @@ char Scanner::advance() {
   return source[current++];
 }
 
+
+bool Scanner::match(char expected) {
+  if (isAtEnd()) return false;
+  if (source[current] != expected) return false;
+  ++current;
+  return true;
+}
+
 void Scanner::number() {
   while(isDigit(peek())) advance();
 
@@ -98,6 +106,14 @@ void Scanner::scanToken() {
       addToken(STAR);
       break;
 
+    case '/':
+      if(match('/')) {
+        while(peek() != '\n' && !isAtEnd()) advance();
+      } else {
+        addToken(SLASH);
+      }
+      break;
+
     case '\n':
       ++line;
       break;
@@ -125,7 +141,6 @@ void Scanner::addToken(TokenType type, std::any literal) {
   tokens.emplace_back(
     Token(type, std::move(text), std::move(literal), line)
   );
-
 }
 
 void Scanner::addToken(TokenType type) {

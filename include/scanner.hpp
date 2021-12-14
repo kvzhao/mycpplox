@@ -25,6 +25,8 @@ private:
   char peek();
   char peekNext();
   char advance();
+  bool match(char expected);
+
   bool isAtEnd();
 
   bool isDigit(char c);

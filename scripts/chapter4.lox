@@ -1,1 +1,2 @@
-123.456
+// Ignore this line
+var a = 123.456;
