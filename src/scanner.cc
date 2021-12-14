@@ -47,6 +47,10 @@ void Scanner::scanToken() {
     case '\n':
       ++line;
       break;
+    case ' ':
+    case '\r':
+    case '\t':
+      break;
 
     default:
       error(line, "Unexpected character.");
