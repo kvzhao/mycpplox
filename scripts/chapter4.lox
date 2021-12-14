@@ -1,6 +1,3 @@
 // Ignore this line
 var a = 123.456 / 2.0;
-!
-2 != 3;
-3 > 2;
-2 >= 2;
+var s = "hello world";

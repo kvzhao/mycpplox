@@ -27,6 +27,10 @@ std::string Token::toString() const {
       literal_text = std::to_string(std::any_cast<double>(literal));
       break;
 
+    case STRING:
+      literal_text = std::any_cast<std::string>(literal);
+      break;
+
     default:
       literal_text = "nil";
       break;

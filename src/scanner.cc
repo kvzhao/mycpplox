@@ -3,6 +3,10 @@
 #include "error.hpp"
 #include <iostream>
 
+const std::unordered_map<std::string, TokenType> Scanner::keywords = {
+
+};
+
 Scanner::Scanner(std::string_view source)
   : source(source) {}
 
@@ -31,6 +35,10 @@ bool Scanner::isAlpha(char c) {
   return (c >= 'a' && c <= 'z') ||
          (c >= 'A' && c <= 'Z') ||
          (c == '_');
+}
+
+bool Scanner::isAlphaNumeric(char c) {
+  return isDigit(c) || isAlpha(c);
 }
 
 char Scanner::peek() {
@@ -69,6 +77,26 @@ void Scanner::number() {
   addToken(NUMBER,
     std::stod(std::string{source.substr(start, current - start)})
   );
+}
+
+void Scanner::string() {
+  while (peek() != '"' && !isAtEnd()) {
+    if (peek() == '\n') ++line;
+    advance();
+  }
+
+  if (isAtEnd()) {
+    error(line, "Unterminated string");
+    return;
+  }
+  // closing the string
+  advance();
+
+  std::string value{
+    source.substr(start + 1, current - start - 2)
+  };
+
+  addToken(STRING, value);
 }
 
 void Scanner::scanToken() {
@@ -136,6 +164,10 @@ void Scanner::scanToken() {
     case ' ':
     case '\r':
     case '\t':
+      break;
+
+    case '"':
+      string();
       break;
 
     default:

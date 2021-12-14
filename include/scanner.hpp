@@ -20,6 +20,7 @@ private:
   void addToken(TokenType tpye, std::any literal);
 
   void number();
+  void string();
 
   // movement operation
   char peek();
@@ -31,6 +32,7 @@ private:
 
   bool isDigit(char c);
   bool isAlpha(char c);
+  bool isAlphaNumeric(char c);
 
   static const std::unordered_map<std::string, TokenType> keywords;
 

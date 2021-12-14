@@ -1,5 +1,6 @@
 # cpplox
  
 
-## Developement Notes
+## Developement Notes & Open Questions
 - Integer & Float? (double)
+- C/C++ style comment /* */
