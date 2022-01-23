@@ -1,0 +1,6 @@
+.vscode
+*.d
+*.o
+jlox
+generate_ast
+ast_printer
