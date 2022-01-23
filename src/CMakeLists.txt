@@ -5,6 +5,7 @@ set(HEADER_LIST
   ../include/token.hpp
   ../include/token_type.hpp
   ../include/error.hpp
+  ../include/expr.hpp
 )
 
 add_library(scanner scanner.cc token.cc ${HEADER_LIST})
