@@ -1,20 +1,20 @@
 
-#include <cstring>      // std::strerror
-#include <fstream>      // readFile
-#include <iostream>     // std::getline
+#include <cstring>  // std::strerror
+#include <fstream>  // readFile
+#include <iostream> // std::getline
 #include <string>
 #include <vector>
 
-#include "token.hpp"
-#include "scanner.hpp"
 #include "error.hpp"
+#include "scanner.hpp"
+#include "token.hpp"
 
 std::string readFile(std::string_view path) {
-  std::ifstream file {
-    path.data(), std::ios::in | std::ios::binary | std::ios::ate};
+  std::ifstream file{path.data(),
+                     std::ios::in | std::ios::binary | std::ios::ate};
   if (!file) {
-    std::cerr << "Failed to open file " << path << ": "
-              << std::strerror(errno) << "\n";
+    std::cerr << "Failed to open file " << path << ": " << std::strerror(errno)
+              << "\n";
     std::exit(74);
   }
 
@@ -27,22 +27,21 @@ std::string readFile(std::string_view path) {
   return contents;
 }
 
-
 void run(std::string_view source) {
   Scanner scanner{source};
   std::vector<Token> tokens = scanner.scanTokens();
 
-  for (const auto& t : tokens) {
+  for (const auto &t : tokens) {
     std::cout << t.toString() << "\n";
   }
-
 }
 
 void runPrompt() {
-  for(;;) {
+  for (;;) {
     std::cout << "> ";
     std::string line;
-    if (!std::getline(std::cin, line)) break;
+    if (!std::getline(std::cin, line))
+      break;
     run(line);
   }
 }
@@ -55,10 +54,9 @@ void runFile(std::string_view path) {
   if (hadError) {
     std::exit(65);
   }
-
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   if (argc > 2) {
     std::cout << "Usage: jlox [script]\n";
     std::exit(64);
