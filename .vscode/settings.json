@@ -78,7 +78,8 @@
     "vector": "cpp",
     "*.tcc": "cpp",
     "memory_resource": "cpp",
-    "stop_token": "cpp"
+    "stop_token": "cpp",
+    "filesystem": "cpp"
   },
   "workbench.colorTheme": "Default Dark+",
   "editor.formatOnSave": true,
@@ -90,7 +91,7 @@
     "strings": false
   },
   "cmake.configureOnOpen": true,
-  "window.zoomLevel": 2,
+  "window.zoomLevel": 1,
   "[cpp]": {
     "editor.defaultFormatter": "xaver.clang-format",
     "editor.formatOnSave": true

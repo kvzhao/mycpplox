@@ -15,7 +15,7 @@ std::string Token2String(TokenType type) {
   return strings[static_cast<int>(type)];
 }
 
-std::string Token::toString() const {
+std::string Token::ToString() const {
   std::string literal_text;
 
   switch (type) {

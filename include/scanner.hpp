@@ -1,37 +1,35 @@
 #pragma once
 
-#include <vector>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "token.hpp"
 
 class Scanner {
 public:
-
   Scanner(std::string_view source);
 
-  std::vector<Token> scanTokens();
+  std::vector<Token> ScanTokens();
 
 private:
+  void ScanToken();
+  void AddToken(TokenType type);
+  void AddToken(TokenType tpye, std::any literal);
 
-  void scanToken();
-  void addToken(TokenType type);
-  void addToken(TokenType tpye, std::any literal);
+  char Peek();
+  char PeekNext();
+  char Advance();
+  bool Match(char expected);
 
-  char peek();
-  char peekNext();
-  char advance();
-  bool match(char expected);
+  void Number();
+  void String();
+  void Identifier();
 
-  void number();
-  void string();
-  void identifier();
-
-  bool isAtEnd();
-  bool isDigit(char c);
-  bool isAlpha(char c);
-  bool isAlphaNumeric(char c);
+  bool IsAtEnd();
+  bool IsDigit(char c);
+  bool IsAlpha(char c);
+  bool IsAlphaNumeric(char c);
 
   static const std::unordered_map<std::string, TokenType> keywords;
 
