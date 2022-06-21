@@ -5,14 +5,13 @@
 
 inline bool hadError = false;
 
-static void report(int line, std::string_view where,
-                   std::string_view message) {
+static void Report(int line, std::string_view where, std::string_view message) {
 
-  std::cerr << "[line " << line << "] Error "
-      << where << ": " << message << "\n";
+  std::cerr << "[line " << line << "] Error " << where << ": " << message
+            << "\n";
   hadError = true;
 }
 
-static void error(int line, std::string_view message) {
-  report(line, "", message);
+static void Error(int line, std::string_view message) {
+  Report(line, "", message);
 }

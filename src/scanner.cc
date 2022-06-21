@@ -16,11 +16,11 @@ const std::unordered_map<std::string, TokenType> Scanner::keywords = {
 
 Scanner::Scanner(std::string_view source) : source(source) {}
 
-std::vector<Token> Scanner::scanTokens() {
+std::vector<Token> Scanner::ScanTokens() {
 
-  while (!isAtEnd()) {
+  while (!IsAtEnd()) {
     start = current;
-    scanToken();
+    ScanToken();
   }
 
   tokens.emplace_back(Token(END_OF_FILE, "", nullptr, line));
@@ -28,33 +28,33 @@ std::vector<Token> Scanner::scanTokens() {
   return tokens;
 }
 
-bool Scanner::isAtEnd() { return current >= source.length(); }
+bool Scanner::IsAtEnd() { return current >= source.length(); }
 
-bool Scanner::isDigit(char c) { return c >= '0' && c <= '9'; }
+bool Scanner::IsDigit(char c) { return c >= '0' && c <= '9'; }
 
-bool Scanner::isAlpha(char c) {
+bool Scanner::IsAlpha(char c) {
   return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_');
 }
 
-bool Scanner::isAlphaNumeric(char c) { return isDigit(c) || isAlpha(c); }
+bool Scanner::IsAlphaNumeric(char c) { return IsDigit(c) || IsAlpha(c); }
 
-char Scanner::peek() {
-  if (isAtEnd())
+char Scanner::Peek() {
+  if (IsAtEnd())
     return '\0';
   return source[current];
 }
 
-char Scanner::peekNext() {
+char Scanner::PeekNext() {
   if (current + 1 >= source.length()) {
     return '\0';
   }
   return source[current + 1];
 }
 
-char Scanner::advance() { return source[current++]; }
+char Scanner::Advance() { return source[current++]; }
 
-bool Scanner::match(char expected) {
-  if (isAtEnd())
+bool Scanner::Match(char expected) {
+  if (IsAtEnd())
     return false;
   if (source[current] != expected)
     return false;
@@ -62,44 +62,44 @@ bool Scanner::match(char expected) {
   return true;
 }
 
-void Scanner::number() {
-  while (isDigit(peek()))
-    advance();
+void Scanner::Number() {
+  while (IsDigit(Peek()))
+    Advance();
 
   // fraction
-  if (peek() == '.' && isDigit(peekNext())) {
-    advance();
-    while (isDigit(peek()))
-      advance();
+  if (Peek() == '.' && IsDigit(PeekNext())) {
+    Advance();
+    while (IsDigit(Peek()))
+      Advance();
   }
 
-  addToken(NUMBER,
+  AddToken(NUMBER,
            std::stod(std::string{source.substr(start, current - start)}));
 }
 
-void Scanner::string() {
-  while (peek() != '"' && !isAtEnd()) {
-    if (peek() == '\n')
+void Scanner::String() {
+  while (Peek() != '"' && !IsAtEnd()) {
+    if (Peek() == '\n')
       ++line;
-    advance();
+    Advance();
   }
 
-  if (isAtEnd()) {
-    error(line, "Unterminated string");
+  if (IsAtEnd()) {
+    Error(line, "Unterminated string");
     return;
   }
   // closing the string
-  advance();
+  Advance();
 
   std::string value{source.substr(start + 1, current - start - 2)};
 
-  addToken(STRING, value);
+  AddToken(STRING, value);
 }
 
-void Scanner::identifier() {
+void Scanner::Identifier() {
 
-  while (isAlphaNumeric(peek()))
-    advance();
+  while (IsAlphaNumeric(Peek()))
+    Advance();
 
   std::string text = std::string{source.substr(start, current - start)};
 
@@ -112,66 +112,66 @@ void Scanner::identifier() {
     type = match->second;
   }
 
-  addToken(type);
+  AddToken(type);
 }
 
-void Scanner::scanToken() {
-  char c = advance();
+void Scanner::ScanToken() {
+  char c = Advance();
 
   switch (c) {
   case '(':
-    addToken(LEFT_PAREN);
+    AddToken(LEFT_PAREN);
     break;
   case ')':
-    addToken(RIGHT_PAREN);
+    AddToken(RIGHT_PAREN);
     break;
   case '{':
-    addToken(LEFT_BRACE);
+    AddToken(LEFT_BRACE);
     break;
   case '}':
-    addToken(RIGHT_BRACE);
+    AddToken(RIGHT_BRACE);
     break;
   case ',':
-    addToken(COMMA);
+    AddToken(COMMA);
     break;
   case '.':
-    addToken(DOT);
+    AddToken(DOT);
     break;
   case '-':
-    addToken(MINUS);
+    AddToken(MINUS);
     break;
   case '+':
-    addToken(PLUS);
+    AddToken(PLUS);
     break;
   case ';':
-    addToken(SEMICOLON);
+    AddToken(SEMICOLON);
     break;
   case '*':
-    addToken(STAR);
+    AddToken(STAR);
     break;
 
   case '!':
-    addToken(match('=') ? BANG_EQUAL : BANG);
+    AddToken(Match('=') ? BANG_EQUAL : BANG);
     break;
 
   case '=':
-    addToken(match('=') ? EQUAL_EQUAL : EQUAL);
+    AddToken(Match('=') ? EQUAL_EQUAL : EQUAL);
     break;
 
   case '>':
-    addToken(match('=') ? GREATER_EQUAL : GREATER);
+    AddToken(Match('=') ? GREATER_EQUAL : GREATER);
     break;
 
   case '<':
-    addToken(match('=') ? LESS_EQUAL : LESS);
+    AddToken(Match('=') ? LESS_EQUAL : LESS);
     break;
 
   case '/':
-    if (match('/')) {
-      while (peek() != '\n' && !isAtEnd())
-        advance();
+    if (Match('/')) {
+      while (Peek() != '\n' && !IsAtEnd())
+        Advance();
     } else {
-      addToken(SLASH);
+      AddToken(SLASH);
     }
     break;
 
@@ -184,25 +184,25 @@ void Scanner::scanToken() {
     break;
 
   case '"':
-    string();
+    String();
     break;
 
   default:
-    if (isDigit(c)) {
-      number();
-    } else if (isAlpha(c)) {
-      identifier();
+    if (IsDigit(c)) {
+      Number();
+    } else if (IsAlpha(c)) {
+      Identifier();
     } else {
-      error(line, "Unexpected character: " + std::to_string(c));
+      Error(line, "Unexpected character: " + std::to_string(c));
     }
     break;
   }
 }
 
-void Scanner::addToken(TokenType type, std::any literal) {
+void Scanner::AddToken(TokenType type, std::any literal) {
   std::string text{source.substr(start, current - start)};
 
   tokens.emplace_back(Token(type, std::move(text), std::move(literal), line));
 }
 
-void Scanner::addToken(TokenType type) { addToken(type, nullptr); }
+void Scanner::AddToken(TokenType type) { AddToken(type, nullptr); }

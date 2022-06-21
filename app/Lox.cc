@@ -9,7 +9,7 @@
 #include "scanner.hpp"
 #include "token.hpp"
 
-std::string readFile(std::string_view path) {
+std::string ReadFile(std::string_view path) {
   std::ifstream file{path.data(),
                      std::ios::in | std::ios::binary | std::ios::ate};
   if (!file) {
@@ -27,29 +27,29 @@ std::string readFile(std::string_view path) {
   return contents;
 }
 
-void run(std::string_view source) {
+void Run(std::string_view source) {
   Scanner scanner{source};
-  std::vector<Token> tokens = scanner.scanTokens();
+  std::vector<Token> tokens = scanner.ScanTokens();
 
   for (const auto &t : tokens) {
-    std::cout << t.toString() << "\n";
+    std::cout << t.ToString() << "\n";
   }
 }
 
-void runPrompt() {
+void RunPrompt() {
   for (;;) {
     std::cout << "> ";
     std::string line;
     if (!std::getline(std::cin, line))
       break;
-    run(line);
+    Run(line);
   }
 }
 
-void runFile(std::string_view path) {
-  std::string contents = readFile(path);
+void RunFile(std::string_view path) {
+  std::string contents = ReadFile(path);
 
-  run(contents);
+  Run(contents);
 
   if (hadError) {
     std::exit(65);
@@ -61,8 +61,8 @@ int main(int argc, char *argv[]) {
     std::cout << "Usage: jlox [script]\n";
     std::exit(64);
   } else if (argc == 2) {
-    runFile(argv[1]);
+    RunFile(argv[1]);
   } else {
-    runPrompt();
+    RunPrompt();
   }
 }
